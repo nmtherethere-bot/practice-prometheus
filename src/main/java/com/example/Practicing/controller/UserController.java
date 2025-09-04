@@ -6,6 +6,7 @@ import com.example.Practicing.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,6 +17,18 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
+    // ❌ Static list that never gets cleared → memory leak
+    private static final List<byte[]> memoryLeakList = new ArrayList<>();
+
+    @GetMapping("/leak")
+    public String leak() {
+        // Each call adds 5MB to memory
+        byte[] leak = new byte[5 * 1024 * 1024];
+        memoryLeakList.add(leak);
+        return "Leaked 5MB of memory. Total leaks: " + memoryLeakList.size() * 5 + "MB";
+    }
+
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
