@@ -14,10 +14,10 @@ spec:
     spec:
       containers:
         - name: springboot-app
-          image: springboot-prom:0.1
+          image: springboot-prom:0.3
           ports:
             - containerPort: 8080
-          imagePullPolicy:  IfNotPresent
+          imagePullPolicy: IfNotPresent
 
 ---
 apiVersion: v1
